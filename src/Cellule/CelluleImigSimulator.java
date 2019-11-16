@@ -30,10 +30,19 @@ public class CelluleImigSimulator extends CelluleSimulator {
 
     @Override
     public void next () {
+        //tab[0][0].set_state(tab);
+        int [] copy = new int [25];
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                copy[(5*i)+j]= tab[i][j].nb_voisins_vivant();
 
-        for (int i=0;i<5;i++){
-            for (int j=0;j<5;j++){
-                tab[i][j].set_state();
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (copy[(5 * i) + j] > 2) {
+                    tab[i][j].set_state();
+                }
             }
         }
         affiche(tab,ig);

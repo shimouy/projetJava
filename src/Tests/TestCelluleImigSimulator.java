@@ -14,28 +14,28 @@ public class TestCelluleImigSimulator {
 
         tab[0][0].init_state(3);
         tab[0][1].init_state(3);
-        tab[2][0].init_state(1);
+        tab[0][2].init_state(1);
 
         tab[1][1].init_state(1);
-        tab[2][1].init_state(1);
-        tab[3][1].init_state(1);
+        tab[1][2].init_state(1);
+        tab[1][3].init_state(1);
         tab[1][4].init_state(3);
 
-        tab[0][2].init_state(1);
-        tab[1][2].init_state(1);
+        tab[2][0].init_state(1);
+        tab[2][1].init_state(1);
         tab[2][2].init_state(3);
-        tab[3][2].init_state(2);
-        tab[4][2].init_state(2);
+        tab[2][3].init_state(2);
+        tab[2][4].init_state(2);
 
         tab[3][0].init_state(1);
-        tab[1][3].init_state(1);
-        tab[2][3].init_state(2);
+        tab[3][1].init_state(1);
+        tab[3][2].init_state(2);
         tab[3][3].init_state(2);
-        tab[4][3].init_state(2);
+        tab[3][4].init_state(2);
 
         tab[4][1].init_state(2);
-        tab[2][4].init_state(2);
-        tab[3][4].init_state(2);
+        tab[4][2].init_state(2);
+        tab[4][3].init_state(2);
         tab[4][4].init_state(1);
 
 

@@ -30,14 +30,11 @@ public class CelluleImig extends Cellule {
         return tmp;
     }
 
-
     @Override
-    public  void set_state(){
-        if(nb_voisins_vivant()>=3){
-            super.state=super.mod((super.state)+1,Netat);
-        }
+    public  void set_state() {
+        super.state = super.mod((super.state) + 1, Netat);
     }
 
 
 
-    }
+}
