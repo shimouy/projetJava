@@ -21,7 +21,7 @@ public class Balls {
 		this.dy=0;
 
 	}
-
+//TODO le tableau de points
 	public void translate(int dx, int dy) {
 		this.x+=dx;
 		this.y+=dy;
