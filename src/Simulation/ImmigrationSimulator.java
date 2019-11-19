@@ -1,15 +1,16 @@
-package Cellule;
+package Simulation;
+import Automates.Conway;
 import gui.*;
 import java.awt.Color;
 
-public class CelluleImigSimulator extends CelluleSimulator {
+public class ImmigrationSimulator extends ConwaySimulator {
 
-    public CelluleImigSimulator(Cellule [][]tab, GUISimulator ig){
+    public ImmigrationSimulator(Conway [][]tab, GUISimulator ig){
         super(tab,ig);
     }
 
     @Override
-    public void affiche(Cellule [][]tab, GUISimulator ig) {
+    public void affiche(Conway [][]tab, GUISimulator ig) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (tab[i][j].getState() == 0) {

@@ -1,14 +1,14 @@
-package Cellule;
+package Automates;
 
-public class Cellule {
+public class Conway {
     protected int state;
     protected int m;
     protected int n;
     protected int init;
-    Cellule[] voisins;
+    Conway[] voisins;
 
-    public Cellule(int state, int n, int m,int init) {
-        this.voisins = new Cellule[8];
+    public Conway(int state, int n, int m,int init) {
+        this.voisins = new Conway[8];
         this.state = state;
         this.init=state;
         this.n = n;
@@ -34,7 +34,7 @@ public class Cellule {
         return res;
     }
 
-    public void ajouter_voisins(Cellule[][] tab) {
+    public void ajouter_voisins(Conway[][] tab) {
         voisins[0] = tab[mod(n-1,5)][mod(m - 1 , 5)];
         voisins[1] = tab[mod(n - 1 , 5)][mod(m ,5)];
         voisins[2] = tab[mod(n - 1 , 5)][mod((m + 1) , 5)];

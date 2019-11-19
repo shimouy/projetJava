@@ -1,4 +1,4 @@
-package Cellule;
+package Automates;
 
 import gui.GUISimulator;
 import gui.Rectangle;
@@ -6,10 +6,10 @@ import gui.Simulable;
 
 import java.awt.*;
 
-public class CelluleImig extends Cellule {
+public class Immigration extends Conway {
     private int Netat;
 
-    public CelluleImig(int state, int n, int m,int init,int Netat){
+    public Immigration(int state, int n, int m,int init,int Netat){
         super(state,n,m,init);
         this.Netat=Netat;
     }

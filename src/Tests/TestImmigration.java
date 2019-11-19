@@ -1,16 +1,18 @@
 package Tests;
-import java.awt.Color;
-import Cellule.*;
-import gui.GUISimulator;
+import Automates.Immigration;
 
-public class TestCelluleImigSimulator {
+public class TestImmigration  {
+
     public static void main(String[] args) {
-        Cellule[][] tab = new Cellule[5][5];
+        // TODO Auto-generated method stub
+
+        Immigration[][] tab = new Immigration[5][5];
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                tab[i][j] = new CelluleImig(0, i, j, 0,4);
+                tab[i][j] = new Immigration(0, i, j, 0,4);
             }
         }
+
 
         tab[0][0].init_state(3);
         tab[0][1].init_state(3);
@@ -44,9 +46,30 @@ public class TestCelluleImigSimulator {
                 tab[w][k].ajouter_voisins((tab));
             }
         }
+        System.out.println("On affiche les voisins à l'état initial");
+        for (int z=0;z<5;z++){
+            for(int q=0;q<5;q++){
+            System.out.println("nb-voisins ["+z+"]["+q+"] = " +tab[z][q].nb_voisins_vivant());
+
+            }
+        }
+        System.out.println(("On affiche les voisins dans Step 1"));
+
+        for (int i=0;i<5;i++){
+            for (int j=0;j<5;j++){
+                tab[i][j].set_state();
+            }
+        }
 
 
-        GUISimulator gui = new GUISimulator(500, 500, Color.BLACK);
-        gui.setSimulable(new CelluleImigSimulator(tab, gui));
+        for (int z=0;z<5;z++){
+            for(int q=0;q<5;q++){
+                System.out.println("nb-voisins ["+z+"]["+q+"] = " +tab[z][q].nb_voisins_vivant());
+            }
+        }
+
+
+
+
     }
 }

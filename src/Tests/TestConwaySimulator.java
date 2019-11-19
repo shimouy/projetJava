@@ -1,14 +1,16 @@
 package Tests;
 import gui.*;
 import java.awt.Color;
-import Cellule.*;
-public class TestCelluleSimulator {
+import Automates.Conway;
+import Simulation.ConwaySimulator;
+
+public class TestConwaySimulator {
 
     public static void main(String[] args) {
-        Cellule [][] tab=new Cellule[5][5];
+        Conway [][] tab=new Conway[5][5];
         for (int i=0;i<5;i++){
             for (int j=0;j<5;j++){
-                tab [i][j]=new Cellule(0, i, j,0);
+                tab [i][j]=new Conway(0, i, j,0);
             }
         }
 
@@ -24,7 +26,7 @@ public class TestCelluleSimulator {
             }
         }
         GUISimulator gui = new GUISimulator (500 ,500 ,Color.BLACK ) ;
-        gui.setSimulable (new CelluleSimulator (tab,gui));
+        gui.setSimulable (new ConwaySimulator (tab,gui));
         // TODO Auto-generated method stub
 
     }

@@ -1,20 +1,21 @@
-package Cellule;
-import gui.*;
-import java.awt.Color;
+package Simulation;
+        import Automates.Conway;
+        import gui.*;
+        import java.awt.Color;
 
 
-public class CelluleSimulator implements Simulable {
-    Cellule [][]tab;
+public class ConwaySimulator implements Simulable {
+    Conway[][]tab;
     GUISimulator ig;
 
 
-    public CelluleSimulator( Cellule [][]tab, GUISimulator ig) {
+    public ConwaySimulator( Conway [][]tab, GUISimulator ig) {
         this.tab = tab;
         this.ig = ig;
 
     }
 
-    public void affiche(Cellule [][]tab, GUISimulator ig) {
+    public void affiche(Conway [][]tab, GUISimulator ig) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (tab[i][j].getState() == 1) {
@@ -24,10 +25,10 @@ public class CelluleSimulator implements Simulable {
         }
     }
 
-    public void delete(Cellule[][] tab,GUISimulator ig) {
+    public void delete(Conway[][] tab,GUISimulator ig) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-            ig.addGraphicalElement(new Rectangle((tab[i][j].getN())*100, (tab[i][j].getM())*100,Color.GRAY, Color.WHITE, 100));
+                ig.addGraphicalElement(new Rectangle((tab[i][j].getN())*100, (tab[i][j].getM())*100,Color.GRAY, Color.WHITE, 100));
             }
         }
     }
@@ -41,7 +42,7 @@ public class CelluleSimulator implements Simulable {
         delete(tab,ig);
         for (int i=0;i<5;i++){
             for (int j=0;j<5;j++){
-                 tab[i][j].set_state();
+                tab[i][j].set_state();
             }
         }
         affiche(tab,ig);
