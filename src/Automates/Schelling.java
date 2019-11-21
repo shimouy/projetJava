@@ -83,30 +83,28 @@ public class Schelling extends Automates{
 		return pos;
 	}
 
+	public int numberOfNeighbor(int x, int y, int n, int m, int K) {
+        int nb = 0;
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                // Eviter la cellule courantepmp
+                if (i != 0 || j != 0) {
+                    if (Cellules[mod(x + i, n)][mod(y + j, m)] > K)
+                        nb++;
+                }
+            }
+        }
+        return nb;
+    }
     @Override
 	public void setGeneration() {
-		int nbNeighbors;
 		preGeneration();
 		for (int x = 0; x < n; x++) {
 			for (int y = 0; y < m; y++) {
 				final int cell = Cellules[x][y];
 				// S'il faut générer la cellule courante
 				if (!skipCellGen(cell)) {
-					nbNeighbors = 0;
-					// Observer tous les voisins
-					for (int i = 0; i < 3; i++) {
-						for (int j = 0; j < 3; j++) {
-							// Eviter la cellule courante
-							if (i != 1 || j != 1) {
-								final int nx = getNeighbor(x, i, n);
-								final int ny = getNeighbor(y, j, m);
-								// Si un voisin est concerné, on le compte
-								if (isNeighborMatch(cell, Cellules[nx][ny]))
-									nbNeighbors++;
-							}
-						}
-					}
-					endCellGen(x, y, nbNeighbors);
+					endCellGen(x, y, numberOfNeighbor(x,y,n,m,K));
 				}
 			}
 		}
