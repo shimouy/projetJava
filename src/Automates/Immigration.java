@@ -1,6 +1,6 @@
 package Automates;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 public class Immigration extends Automates {
     private int nextCells[][];
 
@@ -13,7 +13,7 @@ public class Immigration extends Automates {
         nextCells = new int[n][m];
     }
 
-    protected void endCellGen(int x, int y, int nbNeighbors) {
+    protected void setCellGen(int x, int y, int nbNeighbors) {
         final int state = Cellules[x][y];
         final int next = (state + 1) % states;
         // S'il y a 3 voisins ou plus dans l'état suivant, on y passe aussi
@@ -43,7 +43,7 @@ public class Immigration extends Automates {
         for (int x = 0; x < n; x++) {
             for (int y = 0; y < m; y++) {
                 final int state = Cellules[x][y];
-                endCellGen(x, y, numberOfNeighborsAlive(x, y, n, m, state));
+                setCellGen(x, y, numberOfNeighborsAlive(x, y, n, m, state));
             }
         }
     }
