@@ -20,8 +20,8 @@ public abstract class Automates {
     }
 
 
-    public Automates(int size, int states, int defaultState) {
-		this(size, size, states, defaultState);
+    public Automates(int size, int states, int initStates) {
+        this(size, size, states, initStates);
 	}
 
 	public void add(int x, int y, int state){
@@ -71,7 +71,6 @@ public abstract class Automates {
             this.y=y;
             this.states=state;
         }
-
         public int getX(){
             return x;
         }

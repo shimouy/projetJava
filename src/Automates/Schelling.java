@@ -65,6 +65,7 @@ public class Schelling extends Automates{
 	protected void endCellGen(int x, int y, int nbNeighbors) {
 		// Si plus de K voisins différents, on déménage
 		if(nbNeighbors > K) {
+
 			// La maison courante devient vacante
 			nextCells[x][y] = initStates;
 			vacantHouses.add(new Cell(x, y, initStates));
@@ -87,9 +88,10 @@ public class Schelling extends Automates{
         int nb = 0;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
+                final int state=Cellules[x][y];
                 // Eviter la cellule courantepmp
                 if (i != 0 || j != 0) {
-                    if (Cellules[mod(x + i, n)][mod(y + j, m)] > K)
+                    if (Cellules[mod(x + i, n)][mod(y + j, m)] != state)
                         nb++;
                 }
             }
