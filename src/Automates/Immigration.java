@@ -1,40 +1,78 @@
 package Automates;
+import java.util.ArrayList;
 
-import gui.GUISimulator;
-import gui.Rectangle;
-import gui.Simulable;
+public class Immigration extends Automates {
+    private int nextCells[][];
 
-import java.awt.*;
-
-public class Immigration extends Conway {
-    private int Netat;
-
-    public Immigration(int state, int n, int m,int init,int Netat){
-        super(state,n,m,init);
-        this.Netat=Netat;
+    public Immigration(int n, int m, int states) {
+        this(n, m, states, 0);
     }
 
-    @Override
-    public int getState() {
-        return super.state;
+    public Immigration(int n, int m, int states, int initStates) {
+        super(n,m,states,0);
+        nextCells = new int[n][m];
     }
 
-    @Override
-    public int nb_voisins_vivant() {
-        int tmp = 0;
-        for (int i = 0; i < 8; i++) {
-            if (voisins[i].state == super.mod((super.state)+1,Netat)) {
-                tmp++;
+    protected void endCellGen(int x, int y, int nbNeighbors) {
+        final int state = Cellules[x][y];
+        final int next = (state + 1) % states;
+        // S'il y a 3 voisins ou plus dans l'état suivant, on y passe aussi
+        if (nbNeighbors >= 3)
+            nextCells[x][y] = next;
+            // Sinon on ne change rien
+        else
+            nextCells[x][y] = state;
+    }
+
+    public int numberOfNeighborsAlive(int x, int y, int n, int m, int state) {
+        int nb = 0;
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                // Eviter la cellule courantepmp
+                if (i != 0 || j != 0) {
+                    if (Cellules[mod(x + i, n)][mod(y + j, m)] == mod(state + 1, states))
+                        nb++;
+                }
             }
         }
-        return tmp;
+        return nb;
     }
 
     @Override
-    public  void set_state() {
-        super.state = super.mod((super.state) + 1, Netat);
+    public void setGeneration() {
+        for (int x = 0; x < n; x++) {
+            for (int y = 0; y < m; y++) {
+                final int state = Cellules[x][y];
+                endCellGen(x, y, numberOfNeighborsAlive(x, y, n, m, state));
+            }
+        }
     }
 
+    @Override
+    public void finalGeneration(){
+        int[][] tmp=Cellules;
+        Cellules=nextCells;
+        nextCells=tmp;
+    }
 
+    public  void reInit(){
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                Cellules[i][j] = initStates;
+            }
+        }
+        for (Cell c : Start) {
+            Cellules[c.getX()][c.getY()] = c.getState();
+        }
+    }
+
+    public String toString() {
+		String str = new String("Immigration("+n+", "+m+")\n");
+
+		for (Cell c : Start) {
+			str += c + "\n";
+		}
+		return str;
+	}
 
 }

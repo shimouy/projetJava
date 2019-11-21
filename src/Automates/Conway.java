@@ -1,85 +1,98 @@
 package Automates;
+import java.util.ArrayList;
 
-public class Conway {
-    protected int state;
-    protected int m;
-    protected int n;
-    protected int init;
-    Conway[] voisins;
+public class Conway extends Automates{
 
-    public Conway(int state, int n, int m,int init) {
-        this.voisins = new Conway[8];
-        this.state = state;
-        this.init=state;
-        this.n = n;
-        this.m = m;
+    public static final int DEAD = 0;
+    public static final int DYING = 1;
+    public static final int ALIVE = 2;
+    public static final int BIRTH = 3;
+
+    public Conway(int n, int m) {
+        super(n,m,4,DEAD);
+        //reInit();
     }
 
-    public int getM() {
-        return m;
+    public void add(int x, int y){
+        Cellules[x][y]=ALIVE;
+        Start.add(new Cell(x,y,ALIVE));
     }
 
-    public int getState() {
-        return state;
-    }
-
-    public int getN() {
-        return n;
-    }
-    public static int mod (int a, int b) {
-        int res = a % b;
-        if (res<0 && b>0) {
-            res += b;
+    public int numberOfNeighbors(int x, int y, int n,int m){
+        int nb=0;
+        for (int i = -1 ; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                // Eviter la cellule courante
+                if (i != 0 || j != 0) {
+                    if (Cellules[mod(x + i, n)][mod(y + j, m)] == ALIVE)
+                        nb++;
+                }
+            }
         }
-        return res;
+        return nb;
     }
 
-    public void ajouter_voisins(Conway[][] tab) {
-        voisins[0] = tab[mod(n-1,5)][mod(m - 1 , 5)];
-        voisins[1] = tab[mod(n - 1 , 5)][mod(m ,5)];
-        voisins[2] = tab[mod(n - 1 , 5)][mod((m + 1) , 5)];
-        voisins[3] = tab[mod(n , 5)][mod(m - 1 , 5)];
-        voisins[4] = tab[mod(n , 5)][mod(m + 1 , 5)];
-        voisins[5] = tab[mod(n + 1 , 5)][mod(m - 1 , 5)];
-        voisins[6] = tab[mod(n + 1 , 5)][mod(m , 5)];
-        voisins[7] = tab[mod(n + 1 , 5)][mod(m + 1 , 5)];
+    public void setGeneration(){
+        final int tmp[][] = new int [n][m];
+        for (int i=0;i<n;i++){
+            for (int j=0;j<m;j++){
+                if (Cellules[i][j] == DEAD && numberOfNeighbors(i,j,n,m) == 3)
+                    tmp[i][j] = BIRTH;
+                    // Si une cellule vivante ne possède ni 2 ni 3 voisines vivantes, elle meurt
+                else if (Cellules[i][j] == ALIVE && numberOfNeighbors(i,j,n,m) != 2 && numberOfNeighbors(i,j,n,m) != 3)
+                    tmp[i][j] = DYING;
+            }
+        }
+        for (int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if (tmp[i][j]==BIRTH &&Cellules[i][j]==DEAD){
+                    Cellules[i][j]=BIRTH;
+                }
+                if (tmp[i][j]==DYING && Cellules[i][j]==ALIVE){
+                    Cellules[i][j]=DYING;
+                }
+            }
+        }
+    }
+
+    public void finalGeneration(){
+        for (int x = 0; x < n; x++) {
+            for (int y = 0; y < m; y++) {
+                switch (Cellules[x][y]) {
+                    // Toute cellule née devient vivante
+                    case BIRTH:
+                        Cellules[x][y] = ALIVE;
+                        break;
+                    // Toute mourante devient morte
+                    case DYING:
+                        Cellules[x][y] = DEAD;
+                }
+            }
+        }
     }
 
     public  void reInit(){
-        this.state=init;
-    }
-
-    public int nb_voisins_vivant() {
-        int tmp = 0;
-        for (int i = 0; i < 8; i++) {
-            if (voisins[i].state == 1) {
-                tmp++;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                Cellules[i][j] = DEAD;
             }
         }
-        return tmp;
-    }
-
-    public  void set_state(){
-        if (state == 1){
-            if (nb_voisins_vivant()!=2 && nb_voisins_vivant() !=3){
-                state = 0;
-            }
-        }
-        if (state==0){
-            if (nb_voisins_vivant() ==3){
-                state = 1;
-            }
+        for (Cell c : Start) {
+            Cellules[c.getX()][c.getY()] = ALIVE;
         }
     }
 
-    public void init_state(int state){
-        this.state=state;
-        this.init=state;
+    public String toString() {
+        String str = new String("Conway("+n+", "+m+")\n");
+        for (Cell c : Start) {
+            str += c + "\n";
+        }
+        return str;
     }
 
+    public void generate() {
+        setGeneration();
+        finalGeneration();
+    }
 
 }
-
-
-
-

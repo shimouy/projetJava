@@ -2,63 +2,64 @@ package Simulation;
         import Automates.Conway;
         import gui.*;
         import java.awt.Color;
-
+        import java.util.Random;
 
 public class ConwaySimulator implements Simulable {
-    Conway[][]tab;
-    GUISimulator ig;
 
+    private final int BORDER = 10;
+    private final int DIM = 30;
+    private final int SIZE = DIM - 2;
 
-    public ConwaySimulator( Conway [][]tab, GUISimulator ig) {
-        this.tab = tab;
+    public Conway conway;
+    public GUISimulator ig;
+    public int Cellules[][];
+
+    public ConwaySimulator(Conway conway, GUISimulator ig) {
+        this.conway = conway;
         this.ig = ig;
 
     }
 
-    public void affiche(Conway [][]tab, GUISimulator ig) {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (tab[i][j].getState() == 1) {
-                    ig.addGraphicalElement(new Rectangle(tab[i][j].getN()*100, tab[i][j].getM()*100, Color.GRAY, Color.CYAN, 100));
+    public Rectangle viewCell(int x, int y, Color col) {
+        return new Rectangle(BORDER + x * DIM, BORDER + y * DIM, col, col, SIZE);
+    }
+
+    public Color getCellColor(int x, int y) {
+        Color color = Color.BLACK;
+        switch (Cellules[x][y]) {
+            case Conway.ALIVE:
+                color = Color.decode("#880044");
+                break;
+
+            case Conway.DEAD:
+            default:
+                color = Color.decode("#ffe5d9");
+                break;
+        }
+        return color;
+    }
+
+    public void affiche() {
+        Cellules = conway.getCellules();
+        for (int i = 0; i < Cellules.length; i++) {
+            for (int j = 0; j < Cellules[i].length; j++) {
+                    ig.addGraphicalElement(viewCell(i, j, getCellColor(i, j)));
                 }
             }
         }
-    }
-
-    public void delete(Conway[][] tab,GUISimulator ig) {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                ig.addGraphicalElement(new Rectangle((tab[i][j].getN())*100, (tab[i][j].getM())*100,Color.GRAY, Color.WHITE, 100));
-            }
-        }
-    }
-
-
-
-// ...
 
     @Override
     public void next () {
-        delete(tab,ig);
-        for (int i=0;i<5;i++){
-            for (int j=0;j<5;j++){
-                tab[i][j].set_state();
-            }
-        }
-        affiche(tab,ig);
+        conway.generate();
+        ig.reset();
+        affiche();
     }
-
-
-
 
     @Override
     public void restart () {
-        delete(tab,ig);
-        for (int i=0;i<5;i++){
-            for (int j=0;j<5;j++){
-                tab[i][j].reInit();
-            }
-        }
-        affiche(tab,ig);
+        conway.reInit();
+        ig.reset();
+        affiche();
     }
+
 }
