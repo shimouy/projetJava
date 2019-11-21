@@ -11,7 +11,7 @@ public class TestSchellingSimulator {
 		 * Tirage aléatoire de numberOfColor couleurs pour l'affichage
 		 * des familles
 		 */
-		Color color[] = new Color[numberOfColor + 1];
+		Color color[] = new Color[numberOfColor + 2];
 		color[0] = new Color(255, 255, 255);
 		for(int i = 1; i < color.length; i++){
 			int r = ThreadLocalRandom.current().nextInt(0, 255);
@@ -25,7 +25,7 @@ public class TestSchellingSimulator {
 		int m = 40;
 
 		int rndMin = 1;
-		int rndMax = numberOfColor + 1;
+		int rndMax = numberOfColor + 2;
 		Schelling sch = new Schelling(n, m, numberOfColor + 1, k);
 
 		int nbMaxHabitant = (4 * n * m)/5;
